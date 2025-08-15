@@ -231,7 +231,7 @@ resource fortios_firewallservice_custom services {
   #depends_on        = [ fortios_firewallservice_category.categories ]
 
   name              = each.value.name
-  category          = try(each.value.category, "Uncategorized")
+  category          = try(each.value.category, null)
   protocol          = each.value.protocol
   tcp_portrange     = try(each.value.tport, null)
   udp_portrange     = try(each.value.uport, null)

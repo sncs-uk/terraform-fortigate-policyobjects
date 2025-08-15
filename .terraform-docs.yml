@@ -1,0 +1,7 @@
+formatter: "markdown"
+
+header-from: main.tf
+
+output:
+  file: "README.md"
+  mode: replace

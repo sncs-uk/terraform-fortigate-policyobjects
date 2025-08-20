@@ -12,10 +12,10 @@ terraform {
 }
 locals {
   vdom_objects_yaml = {
-    for vdom in var.vdoms : vdom => yamldecode(file("${var.config_path}/config/${vdom}/objects.yaml")) if fileexists("${var.config_path}/config/${vdom}/objects.yaml")
+    for vdom in var.vdoms : vdom => yamldecode(file("${var.config_path}/${vdom}/objects.yaml")) if fileexists("${var.config_path}/${vdom}/objects.yaml")
   }
 
-  global_objects_yaml = fileexists("${var.config_path}/config/objects.yaml") ? yamldecode(file("${var.config_path}/config/objects.yaml")) : null
+  global_objects_yaml = fileexists("${var.config_path}/objects.yaml") ? yamldecode(file("${var.config_path}/objects.yaml")) : null
 
   multi_v4 = flatten([
     [

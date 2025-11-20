@@ -97,7 +97,7 @@ locals {
     ]
   ])
 
-  groups_v6 = flatten([
+  groups_v6 = var.dual_stack ? flatten([
     [
       for vdom in var.vdoms : [
         for group in try(local.vdom_objects_yaml[vdom].groups, []) : [ merge(group, {vdomparam = vdom, name = "${group.name}"}) ] if can(group.v6)
@@ -119,7 +119,7 @@ locals {
         }
       ] if can(multi.v6)
     ]
-  ])
+  ]) : []
 
   objects_v4 = flatten([
     local.multi_v4,
@@ -134,7 +134,7 @@ locals {
       ] if can(network.v4)
     ]
   ])
-  objects_v6 = flatten([
+  objects_v6 = var.dual_stack ? flatten([
     local.multi_v6,
     [
       for vdom in var.vdoms : [
@@ -146,7 +146,7 @@ locals {
         for vdom in var.vdoms : [ merge(network, {vdomparam = vdom, name = "${network.name}"})]
       ] if can(network.v6)
     ]
-  ])
+  ]) : []
   services = flatten([
     [
       for vdom in var.vdoms : [
@@ -172,7 +172,7 @@ resource fortios_firewall_address address {
   for_each          = { for network in local.objects_v4 : network.name => network }
 
   subnet            = each.value.v4
-  name              = substr(each.value.name, -3, 3) == "_v4" ? each.value.name : "${each.value.name}_v4"
+  name              = var.dual_stack ? substr(each.value.name, -3, 3) == "_v4" ? each.value.name : "${each.value.name}_v4" : each.value.name
   comment           = try(each.value.description, null)
   color             = try(each.value.colour, 1)
   vdomparam         = each.value.vdomparam
@@ -192,7 +192,7 @@ resource fortios_firewall_addrgrp group {
   for_each          = { for group in local.groups_v4 : group.name => group }
   depends_on        = [ fortios_firewall_address.address ]
 
-  name              = substr(each.value.name, -3, 3) == "_v4" ? each.value.name : "${each.value.name}_v4"
+  name              = var.dual_stack ? substr(each.value.name, -3, 3) == "_v4" ? each.value.name : "${each.value.name}_v4" : each.value.name
   comment           = try(each.value.description, null)
   color             = try(each.value.colour, 1)
   dynamic member {
@@ -228,7 +228,7 @@ resource fortios_firewallservice_category categories {
 
 resource fortios_firewallservice_custom services {
   for_each          = { for service in local.services : service.name => service }
-  #depends_on        = [ fortios_firewallservice_category.categories ]
+  depends_on        = [ fortios_firewallservice_category.categories ]
 
   name              = each.value.name
   category          = try(each.value.category, null)

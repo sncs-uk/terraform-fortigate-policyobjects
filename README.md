@@ -33,6 +33,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_config_path"></a> [config\_path](#input\_config\_path) | Path to base configuration directory | `string` | n/a | yes |
+| <a name="input_dual_stack"></a> [dual\_stack](#input\_dual\_stack) | Whether or not to suffix hosts with \_v4 and \_v6 for dual stack | `bool` | `true` | no |
 | <a name="input_vdoms"></a> [vdoms](#input\_vdoms) | List of VDOMs from which to pull in configuration | `list(string)` | `[]` | no |
 
 ## Outputs

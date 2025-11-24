@@ -19,12 +19,10 @@ jobs:
         uses: terraform-docs/gh-actions@v1.4.1
         with:
           working-dir: .
-          output-file: README.md
-          output-method: inject
 
       - name: Fail if files have changed
         uses: tj-actions/verify-changed-files@a1c6acee9df209257a246f2cc6ae8cb6581c1edf # v20
         id: verify-changed-files
         with:
-          files: README.md
+          files: "README.md"
           fail-if-changed: true

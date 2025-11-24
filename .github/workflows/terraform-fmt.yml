@@ -1,0 +1,26 @@
+name: 'Run Terraform fmt'
+
+on:
+  push:
+    branches:
+      - main
+
+permissions: read-all
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    name: Run terraform fmt
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: terraform fmt
+        uses: dflook/terraform-fmt@v2
+
+      - name: Fail if files have changed
+        uses: tj-actions/verify-changed-files@a1c6acee9df209257a246f2cc6ae8cb6581c1edf # v20
+        id: verify-changed-files
+        with:
+          files: "*.tf"
+          fail_if_changed: true

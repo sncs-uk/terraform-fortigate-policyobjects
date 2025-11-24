@@ -1,0 +1,30 @@
+name: 'Run terraform-docs'
+
+on:
+  push:
+    branches:
+      - main
+
+permissions: read-all
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    name: Run terraform fmt
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Render terraform docs inside the README.md and push changes
+        uses: terraform-docs/gh-actions@v1.4.1
+        with:
+          working-dir: .
+          output-file: README.md
+          output-method: inject
+
+      - name: Fail if files have changed
+        uses: tj-actions/verify-changed-files@a1c6acee9df209257a246f2cc6ae8cb6581c1edf # v20
+        id: verify-changed-files
+        with:
+          files: README.md
+          fail_if_changed: true

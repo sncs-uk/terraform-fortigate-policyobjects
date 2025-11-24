@@ -23,4 +23,4 @@ jobs:
         id: verify-changed-files
         with:
           files: "*.tf"
-          fail_if_changed: true
+          fail-if-changed: true

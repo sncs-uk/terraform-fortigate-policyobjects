@@ -27,4 +27,4 @@ jobs:
         id: verify-changed-files
         with:
           files: README.md
-          fail_if_changed: true
+          fail-if-changed: true

@@ -1,0 +1,25 @@
+name: 'Validate PR title'
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+
+permissions: read-all
+
+jobs:
+  main:
+    name: Validate PR title
+    runs-on: ubuntu-latest
+    steps:
+      - name: install
+        run: |
+            pip install -q -U urllib3 requests
+            pip install -q checkov
+      - name: checkout code
+        uses: actions/checkout@v3
+      - name: scan
+        run: |
+            checkov --directory $GITHUB_WORKSPACE

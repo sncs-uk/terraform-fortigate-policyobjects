@@ -5,8 +5,12 @@ on:
     branches:
       - main
 
+permissions: read-all
+
 jobs:
   run:
+    permissions:
+      contents: write # for actions/checkout to fetch code
     runs-on: ubuntu-latest
     name: Run terraform fmt and terraform-docs
     steps:

@@ -1,11 +1,9 @@
 name: 'Run Trivy'
 
 on:
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - synchronize
+  push:
+    branches:
+      - main
 
 permissions: read-all
 

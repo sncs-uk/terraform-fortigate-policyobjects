@@ -1,4 +1,4 @@
-name: 'Run Trivy'
+name: 'Run TFLint'
 
 on:
   push:

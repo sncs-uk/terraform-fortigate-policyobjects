@@ -1,0 +1,25 @@
+name: 'Run terraform-docs'
+
+on:
+  push:
+    branches:
+      - main
+
+permissions: read-all
+
+jobs:
+  tflint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      name: Checkout source code
+      with:
+        ref: main
+
+    - name: Render terraform docs inside the README.md and push changes
+      uses: terraform-docs/gh-actions@v1.4.1
+      with:
+        working-dir: .
+        output-file: README.md
+        output-method: inject
+        git-push: "true"

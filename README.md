@@ -5,13 +5,16 @@ This terraform module configures Policy Objects on a firewall
 
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.32.0 |
+| <a name="requirement_fortios"></a> [fortios](#requirement\_fortios) | >= 1.22.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_fortios"></a> [fortios](#provider\_fortios) | n/a |
+| <a name="provider_fortios"></a> [fortios](#provider\_fortios) | >= 1.22.0 |
 
 ## Modules
 

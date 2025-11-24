@@ -1,0 +1,26 @@
+name: 'Run Trivy'
+
+on:
+  push:
+    branches:
+      - main
+
+permissions: read-all
+
+jobs:
+  tflint:
+    steps:
+    - uses: actions/checkout@v4
+      name: Checkout source code
+
+    - uses: terraform-linters/setup-tflint@v6
+      name: Setup TFLint
+
+    - name: Init TFLint
+      run: tflint --init
+      env:
+        # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Run TFLint
+      run: tflint -f compact

@@ -1,4 +1,4 @@
-name: 'Validate PR title'
+name: Run Checkov
 
 on:
   pull_request_target:
@@ -8,18 +8,26 @@ on:
       - synchronize
 
 permissions: read-all
-
 jobs:
-  main:
-    name: Validate PR title
+  scan:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: install
-        run: |
-            pip install -q -U urllib3 requests
-            pip install -q checkov
-      - name: checkout code
-        uses: actions/checkout@v3
-      - name: scan
-        run: |
-            checkov --directory $GITHUB_WORKSPACE
+      - uses: actions/checkout@v3
+
+      - name: Checkov GitHub Action
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          output_format: cli,sarif
+          output_file_path: console,results.sarif
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+
+        if: success() || failure()
+        with:
+          sarif_file: results.sarif

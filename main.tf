@@ -24,7 +24,7 @@ locals {
       for vdom in var.vdoms : [
         for multi in try(local.vdom_objects_yaml[vdom].multis, []) : [
           for v4 in try(multi.v4, []) : {
-            name        = var.dual_stack ? substr(v4.name, -3, 3) == "_v4" ? v4.name : "${multi.name}-${index(multi.v4, v4)}_v4" : "${multi.name}-${index(multi.v4, v4)}"
+            name        = var.dual_stack ? substr(multi.name, -3, 3) == "_v4" ? multi.name : "${multi.name}-${index(multi.v4, v4)}_v4" : "${multi.name}-${index(multi.v4, v4)}"
             v4          = v4
             description = try(multi.description, null)
             colour      = try(multi.colour, 0)
@@ -37,7 +37,7 @@ locals {
       for multi in try(local.global_objects_yaml.multis, []) : [
         for vdom in var.vdoms : [
           for v4 in try(multi.v4, []) : {
-            name        = var.dual_stack ? substr(v4.name, -3, 3) == "_v4" ? v4.name : "${multi.name}-${index(multi.v4, v4)}_v4" : "${multi.name}-${index(multi.v4, v4)}"
+            name        = var.dual_stack ? substr(multi.name, -3, 3) == "_v4" ? multi.name : "${multi.name}-${index(multi.v4, v4)}_v4" : "${multi.name}-${index(multi.v4, v4)}"
             v4          = v4
             description = try(multi.description, null)
             colour      = try(multi.colour, 0)
@@ -90,7 +90,7 @@ locals {
       for multi in try(local.global_objects_yaml.multis, []) : [
         for vdom in var.vdoms : {
           name        = "${multi.name}_v4"
-          v4          = [for v4 in multi.v4 : var.dual_stack ? substr(v4.name, -3, 3) == "_v4" ? v4.name : "${multi.name}-${index(multi.v4, v4)}_v4" : "${multi.name}-${index(multi.v4, v4)}"]
+          v4          = [for v4 in multi.v4 : var.dual_stack ? substr(multi.name, -3, 3) == "_v4" ? multi.name : "${multi.name}-${index(multi.v4, v4)}_v4" : "${multi.name}-${index(multi.v4, v4)}"]
           colour      = try(multi.colour, 0)
           description = try(multi.description, null)
           vdomparam   = vdom
@@ -102,7 +102,7 @@ locals {
         for multi in try(local.vdom_objects_yaml[vdom].multis, []) : [
           for vdom in var.vdoms : {
             name        = var.dual_stack ? "${multi.name}_v4" : multi.name
-            v4          = [for v4 in multi.v4 : var.dual_stack ? substr(v4.name, -3, 3) == "_v4" ? v4.name : "${multi.name}-${index(multi.v4, v4)}_v4" : "${multi.name}-${index(multi.v4, v4)}"]
+            v4          = [for v4 in multi.v4 : var.dual_stack ? substr(multi.name, -3, 3) == "_v4" ? multi.name : "${multi.name}-${index(multi.v4, v4)}_v4" : "${multi.name}-${index(multi.v4, v4)}"]
             colour      = try(multi.colour, 0)
             description = try(multi.description, null)
             vdomparam   = vdom
